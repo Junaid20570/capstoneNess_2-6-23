@@ -1,0 +1,55 @@
+<div class="jumbotron text-center" id="image-back">
+    <div class="container">
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="item active">
+            <div >
+              <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}" (chartInstance)="getChartInstance($event)"></canvasjs-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-info" (click)="lineChart()">line graph</button>
+    <button class="btn btn-info" (click)="barChart()">bar graph</button>
+    <button class="btn btn-info" (click)="pieChart()">pie chart</button>
+  
+  </div>
+  
+
+  <div class="container" (load)="view()">
+    <input type="date" [(ngModel)]="date" (change)="getDet()">
+    <!-- <button></button> -->
+    <table class="table">
+      <thead>
+        <td>TIME</td>
+        <th>HIGH</th>
+        <th>LOW</th>
+        <th>VOLUME</th>
+        <th>OPEN PRICE</th>
+        <th>CLOSE PRICE</th>
+        <th>%CHANGE</th>
+        <button class="btn glyphicon glyphicon-refresh" (click)="refresh()"> </button>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of stockApi | paginate: {
+          itemsPerPage: change,
+          currentPage: pagination,
+          totalItems: stockApi.length
+        } ; index as i">
+          <td>{{item.datetime }}</td>
+          <td>{{item.high}}</td>
+          <td>{{item.low}}</td>
+          <td>{{item.volume}}</td>
+          <td>{{item.open}}</td>
+          <td>{{item.close}}</td>
+          <td [ngStyle]="{'color': (item.open<item.close) ? 'red' : 'green'}" ><b>{{item.open-item.close}}</b></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination" >
+      <pagination-controls
+        (pageChange)="getevent($event)">
+      </pagination-controls>
+    </div>
